@@ -19,17 +19,12 @@ passport.serializeUser((user, done) => {
 // Deserialize user
 passport.deserializeUser(async (userData, done) => {
   try {
-    if (
-      userData.accountType === "local-account" ||
-      userData.accountType === "google-account" ||
-      userData.accountType === "facebook-account"
-    ) {
-      // Add facebook-account
-      const user = await User.findById(userData.id);
-      done(null, user);
-    } else {
+    if (userData.accountType === "local-admin") {
       const admin = await Admin.findById(userData.id);
       done(null, admin);
+    } else {
+      const user = await User.findById(userData.id);
+      done(null, user);
     }
   } catch (error) {
     done(error);
