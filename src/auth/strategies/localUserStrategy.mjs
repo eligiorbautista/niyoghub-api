@@ -11,7 +11,9 @@ passport.use(
         const user = await User.findOne({ email });
         console.log(user);
         if (!user) {
-          return done(null, false, { message: "User not found" });
+          return done(null, false, {
+            message: "User not found : @localUserStrategy",
+          });
         }
 
         const isPasswordValid = await comparePasswords(password, user.password);

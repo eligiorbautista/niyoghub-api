@@ -10,7 +10,9 @@ passport.use(
       try {
         const admin = await Admin.findOne({ email });
         if (!admin) {
-          return done(null, false, { message: "Admin not found" });
+          return done(null, false, {
+            message: "Admin not found @localAdminStrategy",
+          });
         }
         console.log(admin);
         const isPasswordValid = await comparePasswords(
