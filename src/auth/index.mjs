@@ -16,8 +16,9 @@ passport.serializeUser((user, done) => {
   done(null, { id: user.id, accountType: user.accountType });
 });
 
-// Deserialize user
+// Deserialize admin / user
 passport.deserializeUser(async (userData, done) => {
+  console.log(userData.accountType);
   try {
     if (userData.accountType === "local-admin") {
       const admin = await Admin.findById(userData.id);
