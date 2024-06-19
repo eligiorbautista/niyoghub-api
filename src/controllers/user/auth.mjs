@@ -3,9 +3,6 @@ import User from "../../models/User.mjs";
 import { encryptPassword, comparePasswords } from "../../utilities/helpers.mjs";
 import { sendEmail } from "../../services/sendEmail.mjs";
 import { generateOTP } from "../../services/generateOTP.mjs";
-import "../../auth/strategies/localUserStrategy.mjs";
-import "../../auth/strategies/googleUserStrategy.mjs";
-import "../../auth/strategies/facebookUserStrategy.mjs"; // Import the Facebook strategy
 import "../../auth/index.mjs";
 
 export const user = {
@@ -22,7 +19,7 @@ export const user = {
           .json({ message: "Failed to authenticate with Google" });
       req.logIn(user, (err) => {
         if (err) return next(err);
-        console.log("Successfully authenticated with Google");
+        console.log("User successfully authenticated with Google");
         res.status(200).json({
           message: "Google authentication successful",
           user: req.user,
@@ -44,7 +41,7 @@ export const user = {
           .json({ message: "Failed to authenticate with Facebook" });
       req.logIn(user, (err) => {
         if (err) return next(err);
-        console.log("Successfully authenticated with Facebook");
+        console.log("User successfully authenticated with Facebook");
         res.status(200).json({
           message: "Facebook authentication successful",
           user: req.user,
@@ -60,7 +57,7 @@ export const user = {
       if (!user) return res.status(401).json({ message: info.message });
       req.logIn(user, (err) => {
         if (err) return next(err);
-        res.json({ message: "Logged in successfully", user: req.user });
+        res.json({ message: "User logged in successfully", user: req.user });
       });
     })(req, res, next);
   },

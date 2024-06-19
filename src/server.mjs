@@ -15,13 +15,10 @@ const startServer = async () => {
 
     // Start the server
     app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-      console.log(process.env.GOOGLE_CLIENT_ID);
-      console.log(process.env.GOOGLE_CLIENT_SECRET);
-      console.log(process.env.GOOGLE_CALLBACK_URL);
+      console.log(`Server is running on port ${PORT} ✔`);
     });
   } catch (error) {
-    console.error("Error starting the server:", error);
+    console.error("Error starting the server ✘ :", error);
   }
 };
 

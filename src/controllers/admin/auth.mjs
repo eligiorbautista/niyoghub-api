@@ -3,26 +3,7 @@ import Admin from "../../models/Admin.mjs";
 import { encryptPassword, comparePasswords } from "../../utilities/helpers.mjs";
 import { sendEmail } from "../../services/sendEmail.mjs";
 import { generateOTP } from "../../services/generateOTP.mjs";
-import "../../auth/strategies/localAdminStrategy.mjs";
-import localAdminStrategy from "../../auth/strategies/localAdminStrategy.mjs";
-passport.use("local-admin", localAdminStrategy);
-
-// Serialize admin
-passport.serializeUser((user, done) => {
-  done(null, { id: user.id, accountType: user.accountType });
-});
-
-// Deserialize admin
-passport.deserializeUser(async (adminData, done) => {
-  try {
-    if (adminData.accountType === "local-admin") {
-      const user = await Admin.findById(adminData.id);
-      done(null, user);
-    }
-  } catch (error) {
-    done(error, null);
-  }
-});
+import "../../auth/index.mjs";
 
 export const admin = {
   // Login Admin with OTP Verification
@@ -41,7 +22,7 @@ export const admin = {
           if (err) {
             return next(err);
           }
-          res.json({ message: "Logged in successfully" });
+          res.json({ message: "Admin logged in successfully" });
         });
       } catch (error) {
         next(error);

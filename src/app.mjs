@@ -1,11 +1,10 @@
 import express from "express";
 import session from "express-session";
-import passport from "./auth/index.mjs";
 import routes from "./routes/index.mjs";
 import cookieParser from "cookie-parser";
 import MongoStore from "connect-mongo";
-import cors from "cors"; 
-import './auth/index.mjs'
+import cors from "cors";
+import "./auth/index.mjs";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const SESSION_SECRET = process.env.SESSION_SECRET;
