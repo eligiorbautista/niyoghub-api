@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const AdminSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  otp: { type: String },
-  otpExpiry: { type: Date },
+  otp: { type: String, default: null },
+  otpExpiry: { type: Date, default: null },
   createdAt: { type: Date, default: Date.now },
-  twoFactorAuthentication: { type: Boolean, default: false },
+  isTwoFactorEnabled: { type: Boolean, default: false },
   accountType: {
     type: String,
     enum: ["local-admin"],

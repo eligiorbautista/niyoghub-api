@@ -8,7 +8,7 @@ import localStrategy from "./strategies/localStrategy.mjs";
 // Strategies
 passport.use("google", googleUserStrategy);
 passport.use("facebook", facebookUserStrategy);
-passport.use("local-user", localStrategy);
+passport.use("local", localStrategy);
 
 // Serialize user
 passport.serializeUser((user, done) => {

@@ -12,14 +12,13 @@ const localUserStrategy = new LocalStrategy(
       if (user) {
         const isPasswordValid = await comparePasswords(password, user.password);
         if (!isPasswordValid) {
-          return done(null, false, {
-            message: "Bad Credentials @localUserStrategy",
-          });
+          console.log("Bad Credentials @localUserStrategy");
+          return done(null, false, { message: "Incorrect password" });
         }
         return done(null, { ...user.toObject(), accountType: "local-user" });
       }
 
-      // Check Admin
+      // Check Admin if User is not found
       let admin = await Admin.findOne({ email });
       if (admin) {
         const isPasswordValid = await comparePasswords(
@@ -27,9 +26,8 @@ const localUserStrategy = new LocalStrategy(
           admin.password
         );
         if (!isPasswordValid) {
-          return done(null, false, {
-            message: "Bad Credentials @localAdminStrategy",
-          });
+          console.log("Bad Credentials @localAdminStrategy");
+          return done(null, false, { message: "Incorrect password" });
         }
         return done(null, { ...admin.toObject(), accountType: "local-admin" });
       }

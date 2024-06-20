@@ -57,6 +57,7 @@ export const user = {
       if (!user) return res.status(401).json({ message: info.message });
       req.logIn(user, (err) => {
         if (err) return next(err);
+        console.log(`User logged in successfully`);
         res.json({ message: "User logged in successfully", user: req.user });
       });
     })(req, res, next);
@@ -108,10 +109,9 @@ export const user = {
 
   // Check User Status
   getStatus: async (req, res) => {
-    console.log(req.user);
     if (!req.user)
       return res.status(401).send({ message: "Status: User Not Logged In" });
-    res.status(200).json({ msg: "Status: Logged In", user: req.user });
+    res.status(200).json({ msg: "Status: User Logged In", user: req.user });
   },
 
   // Change User Password with OTP Verification
@@ -150,6 +150,10 @@ export const user = {
     // Generate OTP
     const otp = generateOTP();
     user.otp = otp;
+
+    const otpExpiry = new Date(Date.now() + 2 * 60 * 1000); // 2 minutes
+    user.otpExpiry = otpExpiry;
+
     await user.save();
 
     // Send OTP to user via email
@@ -157,7 +161,20 @@ export const user = {
       await sendEmail(
         user.email,
         "OTP for Password Change",
-        `Your OTP is: ${otp}`
+        `
+Dear ${user.displayName},
+
+You have requested to change your password. To proceed, please enter the One-Time Password (OTP) below.
+
+Your OTP code is: ${otp}
+
+Please note that this OTP is valid for only 2 minutes. If the code expires, you will need to request a new one.
+
+If you did not initiate this request, please ignore this email and ensure your account is secure.
+
+Best regards,
+NiyogHub Team
+        `
       );
       res.json({ message: "OTP sent successfully" });
     } catch (error) {
@@ -178,6 +195,10 @@ export const user = {
     // Generate OTP
     const otp = generateOTP();
     user.otp = otp;
+
+    const otpExpiry = new Date(Date.now() + 2 * 60 * 1000); // 2 minutes
+    user.otpExpiry = otpExpiry;
+
     await user.save();
 
     // Send OTP to user via email
@@ -185,7 +206,20 @@ export const user = {
       await sendEmail(
         user.email,
         "OTP for Password Reset",
-        `Your OTP is: ${otp}`
+        `
+Dear ${user.displayName},
+
+You have requested to reset your password. To proceed, please enter the One-Time Password (OTP) below.
+
+Your OTP code is: ${otp}
+
+Please note that this OTP is valid for only 2 minutes. If the code expires, you will need to request a new one.
+
+If you did not initiate this request, please ignore this email and ensure your account is secure.
+
+Best regards,
+NiyogHub Team
+        `
       );
       res.json({ message: "Password reset email sent" });
     } catch (error) {

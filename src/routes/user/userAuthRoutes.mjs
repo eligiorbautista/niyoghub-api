@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { user } from "../../controllers/user/auth.mjs";
-import { isAuthenticated } from "../../middlewares/authUser.mjs";
+import { isUserAuthenticated } from "../../middlewares/authUser.mjs";
 import { loginLimiter } from "../../middlewares/authUserLimiter.mjs";
 
 const router = Router();
@@ -29,10 +29,9 @@ router.post("/user/auth/password/reset", user.resetPassword);
 
 // Private routes
 // ================================
-router.post("/user/auth/logout", isAuthenticated, user.logout);
 router.post(
   "/user/auth/password/change",
-  isAuthenticated,
+  isUserAuthenticated,
   user.changePasswordWithOTP
 );
 
