@@ -31,7 +31,6 @@ router.post("/user/auth/password/reset", user.resetPassword);
 // ================================
 router.post(
   "/user/auth/password/change",
-  isUserAuthenticated,
   user.changePasswordWithOTP
 );
 
